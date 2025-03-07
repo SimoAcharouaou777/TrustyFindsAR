@@ -24,5 +24,4 @@ export const products = [
     affiliateLink: "https://s.click.aliexpress.com/e/_oF2wfgw",
     category: "fashion"
   },
-
 ];

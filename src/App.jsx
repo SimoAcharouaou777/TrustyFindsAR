@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar/Navbar'
 import { Footer } from './components/Footer/Footer'
 import Home from './Pages/Home'
 import Products from './Pages/Products'
+import CategoryPage from "./CategoryPage.jsx";
 import { Contact } from './Pages/Contact'
 import ProductDetails from './Pages/ProductDetails'
 
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/products/:productId" element={<ProductDetails />} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
           </Routes>
         </main>
         <Footer />
