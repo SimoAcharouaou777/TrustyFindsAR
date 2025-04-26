@@ -16,7 +16,8 @@ const CategoryPage = () => {
         'Electronics': 'electronics',
         'Fashion': 'fashion',
         'Makeup': 'makeup',
-        'Beauty & Care': 'makeup'
+        'Beauty & Care': 'makeup',
+        'Games & Gifts': 'games'
     };
 
     // Category-specific color themes - Updated with Amazon color schemes
@@ -36,10 +37,10 @@ const CategoryPage = () => {
             accent: '[#FF9900]',
             icon: '💄'
         },
-        'default': {
+        'games': {
             gradient: 'from-[#232F3E] to-[#37475A]',
             accent: '[#FF9900]',
-            icon: '🛒'
+            icon: '🎮'
         }
     };
 
@@ -50,7 +51,7 @@ const CategoryPage = () => {
         setTimeout(() => setLoading(false), 800);
 
         // Get category key from URL parameter
-        const categoryKey = categoryMap[categoryName] || categoryName;
+        const categoryKey = categoryName;
 
         // Filter products by category
         const filteredProducts = products.filter(product => product.category === categoryKey);
@@ -86,7 +87,7 @@ const CategoryPage = () => {
 
     // Get the theme for current category
     const getCategoryTheme = () => {
-        const categoryKey = categoryMap[categoryName] || 'default';
+        const categoryKey = categoryName || 'default';
         return categoryThemes[categoryKey] || categoryThemes.default;
     };
 
