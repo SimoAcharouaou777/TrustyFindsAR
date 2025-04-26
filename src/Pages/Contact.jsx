@@ -51,7 +51,7 @@ export const Contact = () => {
               <div>
                 <h3 className="font-bold text-gray-800 mb-2">Call Us</h3>
                 <p className="text-gray-600">Available Monday to Friday, 9 AM - 6 PM (EST)</p>
-                <p className="text-[#FF9900] mt-2 font-medium">+1 (555) 123-4567</p>
+                <p className="text-[#FF9900] mt-2 font-medium">+212 646205524</p>
               </div>
             </div>
 
@@ -62,7 +62,7 @@ export const Contact = () => {
               <div>
                 <h3 className="font-bold text-gray-800 mb-2">WhatsApp</h3>
                 <p className="text-gray-600">For quick inquiries and direct support</p>
-                <p className="text-[#FF9900] mt-2 font-medium">+1 (555) 123-4567</p>
+                <p className="text-[#FF9900] mt-2 font-medium">+212 646205524</p>
               </div>
             </div>
 
