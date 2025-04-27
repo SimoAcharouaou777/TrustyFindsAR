@@ -24,4 +24,16 @@ export const products = [
     affiliateLink: "https://s.click.aliexpress.com/e/_oF2wfgw",
     category: "fashion"
   },
+  {
+    id: 3,
+    name: "Call of Duty: Modern Warfare II (PlayStation 5)",
+    price: 49.99,
+    originalPrice: 69.99,
+    discountPercentage: 29,
+    rating: 4.8,
+    reviews: 1340,
+    image: "https://m.media-amazon.com/images/I/81F+z9H2CUL._AC_SX425_.jpg",
+    affiliateLink: "https://www.amazon.com/dp/B0B1K5PZXB?tag=yourstoreid-20",
+    category: "games"
+  }
 ];
