@@ -312,7 +312,7 @@ const Gaming = () => {
               </div>
               
               <iframe
-                src="https://locked-content.com/?8e3d49b"
+                src={selectedGame.link}
                 title="Content Locker"
                 className="w-full h-[70vh] border-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
