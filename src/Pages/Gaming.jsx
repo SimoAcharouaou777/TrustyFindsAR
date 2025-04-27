@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { games } from '../games';
 import { FaGamepad, FaSearch, FaTimes, FaStar, FaFire, FaChevronRight, FaGamepad as GameIcon } from 'react-icons/fa';
-import { motion , AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Gaming = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,15 +28,60 @@ const Gaming = () => {
     (selectedCategory === 'all' || game.category === selectedCategory)
   );
 
+  // Update your openLocker function to correctly implement the content locker:
   const openLocker = (game) => {
     setSelectedGame(game);
-    // Disable scrolling when modal is open
     document.body.style.overflow = 'hidden';
+
+    // Clear previous timeout if it exists
+    if (window.lockerTimeout) {
+      clearTimeout(window.lockerTimeout);
+    }
+    
+    // Add a slightly longer delay to ensure the modal is fully rendered
+    window.lockerTimeout = setTimeout(() => {
+      if (!game.locker) return;
+
+      // Remove old locker script if exists
+      const oldScript = document.getElementById('locker-script');
+      if (oldScript) oldScript.remove();
+
+      // Set up global configuration for this specific game's locker
+      window.yJwxX_DjN_tgDZac = {
+        it: game.locker.it,
+        key: game.locker.key,
+        container: 'locker-container' // Add container ID here
+      };
+
+      // Create new script
+      const script = document.createElement('script');
+      script.id = 'locker-script';
+      script.src = game.locker.script;
+      script.async = true;
+      
+      // Once the script loads, call _xY() to display the locker
+      script.onload = () => {
+        console.log('Content locker script loaded successfully');
+        // This is the crucial part - we need to call _xY() to activate the locker
+        if (typeof window._xY === 'function') {
+          window._xY();
+          console.log('Locker activation function called');
+        } else {
+          console.error('Locker activation function not found');
+        }
+      };
+      
+      // Add error handling
+      script.onerror = () => {
+        console.error('Failed to load content locker script');
+      };
+      
+      document.body.appendChild(script);
+    }, 800); // Increased delay for more reliable loading
   };
 
   const closeLocker = () => {
     setSelectedGame(null);
-    // Re-enable scrolling
     document.body.style.overflow = 'auto';
   };
 
@@ -275,7 +320,7 @@ const Gaming = () => {
         </motion.div>
       </div>
 
-      {/* Modal - Content Locker with animation */}
+      {/* Content Locker Modal */}
       <AnimatePresence>
         {selectedGame && (
           <motion.div 
@@ -283,6 +328,7 @@ const Gaming = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={closeLocker}
           >
             <motion.div 
               className="bg-[#1a2035] rounded-2xl shadow-2xl w-full max-w-4xl relative overflow-hidden border border-[#FF9900]/30"
@@ -290,6 +336,7 @@ const Gaming = () => {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 30 }}
               transition={{ type: "spring", damping: 25 }}
+              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
             >
               <div className="relative p-6 bg-gradient-to-r from-[#0f172a] to-[#1e293b] flex items-center justify-between border-b border-white/10">
                 <div className="flex items-center gap-3">
@@ -311,20 +358,60 @@ const Gaming = () => {
                 </button>
               </div>
               
-              <iframe
-                src={selectedGame.link}
-                title="Content Locker"
-                className="w-full h-[70vh] border-none"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              ></iframe>
+              <div className="relative h-[70vh]">
+                {/* Content locker script/iframe integration */}
+                {selectedGame.locker && (
+                  <div className="absolute inset-0 flex items-center justify-center p-4">
+                    <div className="w-full h-full bg-white rounded-lg overflow-auto"> 
+                      {/* Loading indicator */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10" id="locker-loading">
+                        <div className="w-12 h-12 border-4 border-[#FF9900] border-t-transparent rounded-full animate-spin"></div>
+                        <p className="mt-4 text-gray-800 font-semibold">Loading your unlock options...</p>
+                      </div>
+                      
+                      {/* The container where the locker will be injected - keep this ID exactly as 'locker-container' */}
+                      <div 
+                        id="locker-container" 
+                        className="w-full h-full min-h-[500px]" 
+                      ></div>
+                    </div>
+                  </div>
+                )}
+                {/* Fallback if no locker config */}
+                {!selectedGame.locker && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
+                    <div className="text-6xl mb-6">🎮</div>
+                    <h3 className="text-2xl font-bold mb-3">Unlock {selectedGame.name}</h3>
+                    <p className="text-white/70 text-center mb-6">Complete one of the offers below to unlock this premium game.</p>
+                    
+                    <div className="w-full max-w-md">
+                      {/* Simulated offers */}
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="bg-white/10 rounded-lg p-4 mb-3 hover:bg-white/20 transition-colors cursor-pointer">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-[#FF9900]/20 rounded-full flex items-center justify-center mr-4">
+                              <span className="text-[#FF9900] font-bold">{i}</span>
+                            </div>
+                            <div>
+                              <h4 className="font-semibold">Complete Survey {i}</h4>
+                              <p className="text-sm text-white/60">Estimated time: {i * 2} min</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
               
-              <div className="p-6 bg-gradient-to-r from-[#0f172a] to-[#1e293b] border-t border-white/10">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                  <div className="text-center md:text-left">
-                    <p className="text-white/80">Having trouble? Contact our support team</p>
+              {/* Footer section */}
+              <div className="p-4 bg-gradient-to-r from-[#0f172a] to-[#1e293b] border-t border-white/10">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-center sm:text-left">
+                    <p className="text-white/80 text-sm">Having trouble? Our support team is here to help!</p>
                   </div>
                   <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-colors">
-                    Need Help?
+                    Contact Support
                   </button>
                 </div>
               </div>
