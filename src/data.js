@@ -1,39 +1,29 @@
 // مثال لبيانات المنتجات باللغة العربية
 export const products = [
+  
   {
     id: 1,
-    name: "عباية كيمونو قفطان دبي فستان إسلامي عبايات قفطان ماروكين قطر عمان تركيا ملابس للنساء رداء نسائي",
-    price: 49.30,
-    originalPrice: 61.62,
-    discountPercentage: 20,
+    name: "Seos Shea Better Body Lotion- Vanilla Cashmere, 24-Hour Moisture Skin Care",
+    price: 8.98,
+    originalPrice: 12.99,
+    discountPercentage: 31,
     rating: 5,
     reviews: 39,
-    image: "//ae01.alicdn.com/kf/S437363f15ee8461fa4bec2cb5bdb1cbdI.jpg_350x350.jpg",
-    affiliateLink: "https://s.click.aliexpress.com/e/_oCO5s0Q",
-    category: "fashion"
+    image: "https://a.media-amazon.com/images/S/aplus-media-library-service-media/b7a359a2-41a1-496b-b297-03e9b492568a.__CR0,0,4042,2500_PT0_SX970_V1___.jpg",
+    affiliateLink: "https://amzn.to/42QzP4s",
+    category: "makeup",
   },
   {
     id: 2,
-    name: "عيد مسلم لؤلؤة عباية للنساء الديكور رمضان سترة مطوي فستان طويل المغرب قفطان عبايات طويلة دبي رداء جلابية 2024",
-    price: 49.61,
-    originalPrice: 130.90,
-    discountPercentage: 62,
-    rating: 4.6,
-    reviews: 109,
-    image: "//ae01.alicdn.com/kf/S437363f15ee8461fa4bec2cb5bdb1cbdI.jpg_350x350.jpg",
-    affiliateLink: "https://s.click.aliexpress.com/e/_oF2wfgw",
-    category: "fashion"
-  },
-  {
-    id: 3,
-    name: "Call of Duty: Modern Warfare II (PlayStation 5)",
-    price: 49.99,
-    originalPrice: 69.99,
+    name: "  Neutrogena Makeup Remover Wipes, Daily Facial Cleanser Towelettes, Gently Cleanse and Remove Oil & Makeup",
+    price: 11.38,
+    originalPrice: 15.99,
     discountPercentage: 29,
-    rating: 4.8,
-    reviews: 1340,
-    image: "https://m.media-amazon.com/images/I/81F+z9H2CUL._AC_SX425_.jpg",
-    affiliateLink: "https://www.amazon.com/dp/B0B1K5PZXB?tag=yourstoreid-20",
-    category: "games"
-  }
+    rating: 5,
+    reviews: 60,
+    image: "https://a.media-amazon.com/images/I/81VSQL++sqL._SX679_.jpg",
+    affiliateLink: "https://amzn.to/4iCcYiG",
+    category: "makeup",
+  },
+
 ];
