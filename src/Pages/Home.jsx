@@ -181,12 +181,18 @@ const Home = () => {
             Most Popular Categories
           </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
             {[
-              { name: "Electronics", slug: "electronics", icon: "📱", color: "bg-blue-50 border-blue-200" },
-              { name: "Fashion", slug: "fashion", icon: "👗", color: "bg-pink-50 border-pink-200" },
+              { name: "Electronics", slug: "electronics", icon: "🔌", color: "bg-blue-50 border-blue-200" },
+              { name: "Fashion", slug: "fashion", icon: "👚", color: "bg-pink-50 border-pink-200" },
+              { name: "Makeup", slug: "makeup", icon: "💄", color: "bg-purple-50 border-purple-200" },
               { name: "Beauty & Care", slug: "makeup", icon: "✨", color: "bg-purple-50 border-purple-200" },
               { name: "Games & Gifts", slug: "games", icon: "🎮", color: "bg-yellow-50 border-yellow-200" },
+              { name: "Home & Kitchen", slug: "home-kitchen", icon: "🍽️", color: "bg-green-50 border-green-200" },
+              { name: "Toys & Games", slug: "toys", icon: "🧸", color: "bg-orange-50 border-orange-200" },
+              { name: "Sports & Outdoors", slug: "sports", icon: "⚽", color: "bg-red-50 border-red-200" },
+              { name: "Books", slug: "books", icon: "📚", color: "bg-teal-50 border-teal-200" },
+              { name: "Computers & Accessories", slug: "computers", icon: "💻", color: "bg-gray-50 border-gray-200" }
             ].map((category, index) => (
               <div
                 key={index}
