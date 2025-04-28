@@ -1,6 +1,6 @@
 export const games = [
     {
-        id: 1,
+        id: 13,
         name: "Stumble Guys - Ultimate Knockout",
         description: "Race, stumble, and win crazy knockout battles in the ultimate multiplayer party game!",
         category: "action",
@@ -14,7 +14,7 @@ export const games = [
         locker: {
             it: 4478744,        // Your "it" value (this is locker ID for that game)
             key: "f8d43",        // Your "key" value (unique per game locker)
-            script: "https://d2v7l2267atlz5.cloudfront.net/715aea9.js" // Your locker script link
+            script: "https://d2v7l2267atlz5.cloudfront.net/ce69cad.js" // Your locker script link
           }
       }
       
