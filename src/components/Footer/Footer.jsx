@@ -80,9 +80,6 @@ export const Footer = () => {
                       placeholder="Enter your email"
                       className="flex-1 px-4 py-2 rounded-full bg-white/5 border border-[#FF9900]/20 text-sm focus:outline-none focus:border-[#FF9900]"
                   />
-                  <button className="px-4 py-2 bg-[#FF9900] hover:bg-[#FEBD69] rounded-full text-sm transition-colors text-[#232F3E] font-medium">
-                    Subscribe
-                  </button>
                 </div>
               </div>
             </div>

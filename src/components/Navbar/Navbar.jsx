@@ -15,7 +15,7 @@ export const Navbar = () => {
             </Link>
 
             {/* Desktop Navigation Menu */}
-            <div className="hidden md:flex items-center gap-6 flex-1 max-w-3xl mx-8">
+            <div className="hidden md:flex items-center gap-6 flex-1 mx-8">
               <div className="relative w-full">
                 <input
                     type="text"
@@ -31,6 +31,12 @@ export const Navbar = () => {
                     className="text-gray-700 hover:text-[#FF9900] transition-colors font-medium"
                 >
                   Shop Now
+                </Link>
+                <Link
+                    to="/gaming"
+                    className="text-gray-700 hover:text-[#FF9900] transition-colors font-medium"
+                    >
+                  Gaming
                 </Link>
                 <Link
                     to="/contact"
@@ -67,6 +73,12 @@ export const Navbar = () => {
                     className="py-2 text-gray-700 hover:text-[#FF9900] transition-colors font-medium"
                 >
                   Shop Now
+                </Link>
+                <Link
+                    to="/gaming"
+                    className="py-2 text-gray-700 hover:text-[#FF9900] transition-colors font-medium"
+                    >
+                  Gaming
                 </Link>
                 <Link
                     to="/contact"

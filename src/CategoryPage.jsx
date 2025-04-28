@@ -17,7 +17,12 @@ const CategoryPage = () => {
         'Fashion': 'fashion',
         'Makeup': 'makeup',
         'Beauty & Care': 'makeup',
-        'Games & Gifts': 'games'
+        'Games & Gifts': 'games',
+        'Home & Kitchen': 'home-kitchen',
+        'Toys & Games': 'toys',
+        'Sports & Outdoors': 'sports',
+        'Books': 'books',
+        'Computers & Accessories': 'computers',
     };
 
     // Category-specific color themes - Updated with Amazon color schemes
@@ -41,6 +46,37 @@ const CategoryPage = () => {
             gradient: 'from-[#232F3E] to-[#37475A]',
             accent: '[#FF9900]',
             icon: '🎮'
+        },
+        'kitchen': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '🍽️'
+        },
+        // Add themes for other categories
+        'toys': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '🧸'
+        },
+        'sports': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '⚽'
+        },
+        'books': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '📚'
+        },
+        'computers': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '💻'
+        },
+        'default': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '🛒'
         }
     };
 
@@ -51,7 +87,7 @@ const CategoryPage = () => {
         setTimeout(() => setLoading(false), 800);
 
         // Get category key from URL parameter
-        const categoryKey = categoryName;
+        const categoryKey = categoryMap[categoryName] || categoryName;
 
         // Filter products by category
         const filteredProducts = products.filter(product => product.category === categoryKey);
@@ -144,24 +180,28 @@ const CategoryPage = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Filters and Sorting Bar */}
-                <div className="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between sticky top-0 z-10">
-                    <div className="flex items-center gap-4">
+                <div className="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between sticky top-0 z-10">
+                    <div className="flex items-center gap-4 mb-3 sm:mb-0">
                         <span className="font-medium text-gray-700">{categoryProducts.length} Products</span>
                         <button
                             onClick={() => setShowFilters(!showFilters)}
-                            className={`flex items-center gap-1 px-3 py-2 rounded-lg border ${showFilters ? `border-${theme.accent} text-${theme.accent}` : 'border-gray-300 text-gray-700'}`}
+                            className={`flex items-center gap-1 px-3 py-2 rounded-lg border ${
+                                showFilters 
+                                    ? 'border-[#FF9900] text-[#FF9900]' 
+                                    : 'border-gray-300 text-gray-700'
+                            }`}
                         >
                             <FaFilter className="text-sm" />
                             <span>Filter</span>
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-2 mt-3 sm:mt-0">
-                        <span className="text-gray-600">Sort by:</span>
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <span className="text-gray-600 whitespace-nowrap">Sort by:</span>
                         <select
                             value={sortBy}
                             onChange={(e) => handleSort(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2 bg-white text-gray-800"
+                            className="border border-gray-300 rounded-lg p-2 bg-white text-gray-800 flex-grow sm:flex-grow-0"
                         >
                             <option value="popularity">Most Popular</option>
                             <option value="price-asc">Price: Low to High</option>
@@ -171,6 +211,57 @@ const CategoryPage = () => {
                         </select>
                     </div>
                 </div>
+
+                {/* Filter Panel */}
+                {showFilters && (
+                    <div className="w-full bg-white p-4 rounded-lg shadow-sm mb-6 border border-gray-200">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* Price Range */}
+                            <div>
+                                <h4 className="font-medium text-gray-800 mb-2">Price Range</h4>
+                                <div className="flex items-center gap-2">
+                                    <input 
+                                        type="number" 
+                                        placeholder="Min" 
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        min="0"
+                                    />
+                                    <span>-</span>
+                                    <input 
+                                        type="number" 
+                                        placeholder="Max" 
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        min="0"
+                                    />
+                                </div>
+                            </div>
+                            
+                            {/* Rating Filter */}
+                            <div>
+                                <h4 className="font-medium text-gray-800 mb-2">Rating</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {[4, 3, 2, 1].map(rating => (
+                                        <button 
+                                            key={rating} 
+                                            className="px-3 py-1 border border-gray-300 rounded-md hover:bg-[#FF9900] hover:text-white hover:border-[#FF9900] transition-colors"
+                                        >
+                                            {rating}+ ⭐
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            {/* Prime Eligible */}
+                            <div>
+                                <h4 className="font-medium text-gray-800 mb-2">Shipping</h4>
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" className="w-4 h-4 accent-[#FF9900]" />
+                                    <span>Prime Eligible</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Products Grid with Enhanced Cards */}
                 {categoryProducts.length > 0 ? (

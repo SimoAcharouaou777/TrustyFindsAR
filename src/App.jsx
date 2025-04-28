@@ -6,6 +6,7 @@ import Products from './Pages/Products'
 import CategoryPage from "./CategoryPage.jsx";
 import { Contact } from './Pages/Contact'
 import ProductDetails from './Pages/ProductDetails'
+import Gaming from './Pages/Gaming.jsx'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/products/:productId" element={<ProductDetails />} />
             <Route path="/category/:categoryName" element={<CategoryPage />} />
+            <Route path="/gaming" element={<Gaming />} />
           </Routes>
         </main>
         <Footer />
