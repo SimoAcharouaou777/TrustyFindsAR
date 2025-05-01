@@ -33,11 +33,11 @@ export const games = [
         platforms: ["Windows", "Mobile"],
         tags: ["Battle Royale", "Multiplayer", "Fun"],
         locker: {
-            it: 4478744,      
-            key: "f8d43",      
-            script: "https://d2v7l2267atlz5.cloudfront.net/ce69cad.js" ,
-            varName: "DkTKp_FBC_CprExc",
-            funcName:"_JW"
+            it: 4481701,      
+            key: "03a3a",      
+            script: "https://d2v7l2267atlz5.cloudfront.net/8ec207a.js" ,
+            varName: "EdanE_OEn_hOxVXc",
+            funcName:"_kt"
           }
       }
       
