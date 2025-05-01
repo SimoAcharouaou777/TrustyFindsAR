@@ -23,12 +23,59 @@ const Gaming = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Add this useEffect to inject styles that will help content lockers render properly
+  useEffect(() => {
+    // Create style element if it doesn't exist
+    if (!document.getElementById('locker-style-overrides')) {
+      const styleEl = document.createElement('style');
+      styleEl.id = 'locker-style-overrides';
+      styleEl.textContent = `
+        /* Content locker style overrides */
+        #locker-container {
+          width: 100% !important;
+          height: auto !important;
+          min-height: 400px !important;
+          position: relative !important;
+        }
+        
+        /* Target common content locker elements */
+        .cl-main-wrapper, 
+        .offer-container,
+        .offer-page,
+        .offer-iframe {
+          width: 100% !important;
+          max-width: 100% !important;
+          position: relative !important;
+          left: auto !important;
+          top: auto !important;
+          transform: none !important;
+        }
+        
+        /* Force visibility of content */
+        #locker-container > * {
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+      `;
+      document.head.appendChild(styleEl);
+    }
+    
+    // Clean up on unmount
+    return () => {
+      const styleEl = document.getElementById('locker-style-overrides');
+      if (styleEl) {
+        styleEl.remove();
+      }
+    };
+  }, []);
+
   const filteredGames = games.filter(game => 
     game.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
     (selectedCategory === 'all' || game.category === selectedCategory)
   );
 
-  // Update your openLocker function to correctly implement the content locker:
+  // Update openLocker function to use the content locker's preferred rendering approach:
   const openLocker = (game) => {
     setSelectedGame(game);
     document.body.style.overflow = 'hidden';
@@ -46,11 +93,16 @@ const Gaming = () => {
       const oldScript = document.getElementById('locker-script');
       if (oldScript) oldScript.remove();
 
+      // Get the variable and function names
+      const varName = game.locker.varName;
+      const funcName = game.locker.funcName;
+
       // Set up global configuration for this specific game's locker
-      window.yJwxX_DjN_tgDZac = {
+      // IMPORTANT: Don't specify container - let it use its default behavior
+      window[varName] = {
         it: game.locker.it,
-        key: game.locker.key,
-        container: 'locker-container' // Add container ID here
+        key: game.locker.key
+        // Removed container property to let content locker decide its own rendering
       };
 
       // Create new script
@@ -59,25 +111,58 @@ const Gaming = () => {
       script.src = game.locker.script;
       script.async = true;
       
-      // Once the script loads, call _xY() to display the locker
+      // Once the script loads, call the appropriate function to display the locker
       script.onload = () => {
         console.log('Content locker script loaded successfully');
-        // This is the crucial part - we need to call _xY() to activate the locker
-        if (typeof window._xY === 'function') {
-          window._xY();
-          console.log('Locker activation function called');
+        
+        // Hide the loading indicator
+        const loadingElement = document.getElementById('locker-loading');
+        if (loadingElement) {
+          loadingElement.style.display = 'none';
+        }
+        
+        // Get the activation function based on the game's configuration
+        const activationFunc = window[funcName];
+        if (typeof activationFunc === 'function') {
+          activationFunc();
+          console.log(`Locker activation function ${funcName} called`);
+          
+          // Add a MutationObserver to detect when content is added to the body
+          // and move it to our container
+          const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.addedNodes.length) {
+                // Look for added content locker elements
+                mutation.addedNodes.forEach((node) => {
+                  if (node.nodeType === 1 && 
+                      (node.classList.contains('cl-main-wrapper') || 
+                       node.classList.contains('offer-page') || 
+                       node.id === 'offer-container')) {
+                    // Found the content locker element, move it to our container
+                    const container = document.getElementById('locker-container');
+                    if (container && node.parentElement !== container) {
+                      container.appendChild(node);
+                      observer.disconnect(); // Stop observing once we've moved it
+                    }
+                  }
+                });
+              }
+            });
+          });
+          
+          // Start observing the document body for added nodes
+          observer.observe(document.body, { childList: true, subtree: true });
         } else {
-          console.error('Locker activation function not found');
+          console.error(`Locker activation function ${funcName} not found`);
         }
       };
       
-      // Add error handling
       script.onerror = () => {
         console.error('Failed to load content locker script');
       };
       
       document.body.appendChild(script);
-    }, 800); // Increased delay for more reliable loading
+    }, 800);
   };
 
   const closeLocker = () => {
@@ -324,30 +409,31 @@ const Gaming = () => {
       <AnimatePresence>
         {selectedGame && (
           <motion.div 
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 md:p-10"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-50 p-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeLocker}
           >
             <motion.div 
-              className="bg-[#1a2035] rounded-2xl shadow-2xl w-full max-w-4xl relative overflow-hidden border border-[#FF9900]/30"
+              className="bg-[#1a2035] rounded-2xl shadow-2xl w-full max-w-4xl relative border border-[#FF9900]/30 flex flex-col max-h-[95vh]"
               initial={{ scale: 0.9, y: 30 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 30 }}
               transition={{ type: "spring", damping: 25 }}
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative p-6 bg-gradient-to-r from-[#0f172a] to-[#1e293b] flex items-center justify-between border-b border-white/10">
+              {/* Header */}
+              <div className="relative p-4 bg-gradient-to-r from-[#0f172a] to-[#1e293b] flex items-center justify-between border-b border-white/10 shrink-0">
                 <div className="flex items-center gap-3">
                   <img 
                     src={selectedGame.image} 
                     alt={selectedGame.name} 
-                    className="w-12 h-12 rounded-lg object-cover"
+                    className="w-10 h-10 rounded-lg object-cover"
                   />
                   <div>
-                    <h3 className="text-xl font-bold">{selectedGame.name}</h3>
-                    <p className="text-white/60 text-sm">Complete an offer to unlock</p>
+                    <h3 className="text-lg font-bold">{selectedGame.name}</h3>
+                    <p className="text-white/60 text-xs">Complete an offer to unlock</p>
                   </div>
                 </div>
                 <button
@@ -358,59 +444,31 @@ const Gaming = () => {
                 </button>
               </div>
               
-              <div className="relative h-[70vh]">
-                {/* Content locker script/iframe integration */}
-                {selectedGame.locker && (
-                  <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <div className="w-full h-full bg-white rounded-lg overflow-auto"> 
-                      {/* Loading indicator */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10" id="locker-loading">
-                        <div className="w-12 h-12 border-4 border-[#FF9900] border-t-transparent rounded-full animate-spin"></div>
-                        <p className="mt-4 text-gray-800 font-semibold">Loading your unlock options...</p>
-                      </div>
-                      
-                      {/* The container where the locker will be injected - keep this ID exactly as 'locker-container' */}
-                      <div 
-                        id="locker-container" 
-                        className="w-full h-full min-h-[500px]" 
-                      ></div>
-                    </div>
-                  </div>
-                )}
-                {/* Fallback if no locker config */}
-                {!selectedGame.locker && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-                    <div className="text-6xl mb-6">🎮</div>
-                    <h3 className="text-2xl font-bold mb-3">Unlock {selectedGame.name}</h3>
-                    <p className="text-white/70 text-center mb-6">Complete one of the offers below to unlock this premium game.</p>
-                    
-                    <div className="w-full max-w-md">
-                      {/* Simulated offers */}
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className="bg-white/10 rounded-lg p-4 mb-3 hover:bg-white/20 transition-colors cursor-pointer">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 bg-[#FF9900]/20 rounded-full flex items-center justify-center mr-4">
-                              <span className="text-[#FF9900] font-bold">{i}</span>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold">Complete Survey {i}</h4>
-                              <p className="text-sm text-white/60">Estimated time: {i * 2} min</p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+              {/* Content Container */}
+              <div className="flex-grow overflow-auto bg-white">
+                {/* Loading indicator */}
+                <div 
+                  className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10" 
+                  id="locker-loading"
+                >
+                  <div className="w-12 h-12 border-4 border-[#FF9900] border-t-transparent rounded-full animate-spin"></div>
+                  <p className="mt-4 text-gray-800 font-semibold">Loading your unlock options...</p>
+                </div>
+                
+                {/* Content locker container */}
+                <div 
+                  id="locker-container" 
+                  className="min-h-[400px] w-full"
+                >
+                  {/* Content locker will be moved here by our MutationObserver */}
+                </div>
               </div>
               
-              {/* Footer section */}
-              <div className="p-4 bg-gradient-to-r from-[#0f172a] to-[#1e293b] border-t border-white/10">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-center sm:text-left">
-                    <p className="text-white/80 text-sm">Having trouble? Our support team is here to help!</p>
-                  </div>
-                  <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-colors">
+              {/* Footer */}
+              <div className="p-3 bg-gradient-to-r from-[#0f172a] to-[#1e293b] border-t border-white/10 shrink-0">
+                <div className="flex items-center justify-between gap-4 text-xs">
+                  <p className="text-white/80">Having trouble? Our support team is here to help!</p>
+                  <button className="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-lg">
                     Contact Support
                   </button>
                 </div>
