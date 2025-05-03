@@ -174,7 +174,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Popular Categories - New section */}
+      {/* Popular Categories - Updated with tech categories */}
       <div className="bg-gradient-to-b from-white to-[#FEBD69]/20 py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-bold mb-10 text-gray-800 text-center">
@@ -184,9 +184,9 @@ const Home = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
             {[
               { name: "Electronics", slug: "electronics", icon: "🔌", color: "bg-blue-50 border-blue-200" },
-              { name: "Fashion", slug: "fashion", icon: "👚", color: "bg-pink-50 border-pink-200" },
-              { name: "Makeup", slug: "makeup", icon: "💄", color: "bg-purple-50 border-purple-200" },
-              { name: "Beauty & Care", slug: "makeup", icon: "✨", color: "bg-purple-50 border-purple-200" },
+              { name: "Smart Home", slug: "smart-home", icon: "🏠", color: "bg-cyan-50 border-cyan-200" },
+              { name: "Audio & Headphones", slug: "audio", icon: "🎧", color: "bg-indigo-50 border-indigo-200" },
+              { name: "Wearable Tech", slug: "wearable-tech", icon: "⌚", color: "bg-teal-50 border-teal-200" },
               { name: "Games & Gifts", slug: "games", icon: "🎮", color: "bg-yellow-50 border-yellow-200" },
               { name: "Home & Kitchen", slug: "home-kitchen", icon: "🍽️", color: "bg-green-50 border-green-200" },
               { name: "Toys & Games", slug: "toys", icon: "🧸", color: "bg-orange-50 border-orange-200" },
