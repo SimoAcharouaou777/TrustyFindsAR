@@ -25,5 +25,17 @@ export const products = [
     affiliateLink: "https://amzn.to/4iCcYiG",
     category: "makeup",
   },
+  {
+    id: 3,
+    name: "Ninja Swirl by CREAMi Ice Cream and Soft Serve Maker",
+    price: 300.38,
+    originalPrice: 399.99,
+    discountPercentage: 25,
+    rating: 4.4,
+    reviews: 230,
+    image: "https://a.media-amazon.com/images/I/810HM-npDOL._AC_SX679_.jpg",
+    affiliateLink: "https://amzn.to/43dZe9s",
+    category: "home-kitchen",
+  },
 
 ];

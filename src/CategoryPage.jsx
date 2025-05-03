@@ -14,9 +14,9 @@ const CategoryPage = () => {
     // Common category mapping used across the app
     const categoryMap = {
         'Electronics': 'electronics',
-        'Fashion': 'fashion',
-        'Makeup': 'makeup',
-        'Beauty & Care': 'makeup',
+        'Smart Home': 'smart-home',
+        'Audio & Headphones': 'audio',
+        'Wearable Tech': 'wearable-tech',
         'Games & Gifts': 'games',
         'Home & Kitchen': 'home-kitchen',
         'Toys & Games': 'toys',
@@ -32,22 +32,27 @@ const CategoryPage = () => {
             accent: '[#FF9900]',
             icon: '🔌'
         },
-        'fashion': {
+        'smart-home': {
             gradient: 'from-[#232F3E] to-[#37475A]',
             accent: '[#FF9900]',
-            icon: '👚'
+            icon: '🏠'
         },
-        'makeup': {
+        'audio': {
             gradient: 'from-[#232F3E] to-[#37475A]',
             accent: '[#FF9900]',
-            icon: '💄'
+            icon: '🎧'
+        },
+        'wearable-tech': {
+            gradient: 'from-[#232F3E] to-[#37475A]',
+            accent: '[#FF9900]',
+            icon: '⌚'
         },
         'games': {
             gradient: 'from-[#232F3E] to-[#37475A]',
             accent: '[#FF9900]',
             icon: '🎮'
         },
-        'kitchen': {
+        'home-kitchen': {
             gradient: 'from-[#232F3E] to-[#37475A]',
             accent: '[#FF9900]',
             icon: '🍽️'
